@@ -37,6 +37,7 @@ import os.path
 
 # Import code for the processing of the html file for the extras
 import requests
+import json
 
 
 class CoordinateCapture:
@@ -283,16 +284,35 @@ class CoordinateCapture:
                                                                         point.y(),
                                                                         self.canvasCrsDisplayPrecision))
         self.point = point
+        self.userCrsPoint = userCrsPoint
+        self.moreInfoClicked()
+        
 
     def moreInfoClicked(self):
         point = self.point
+        userCrsPoint = self.userCrsPoint
+        
+        # Get first API with information
         url = 'https://streetmap.co.uk/idgc/gct?x={0:.{2}f}&y={1:.{2}f}&to=1'.format(point.x(), point.y(),
                                                                                 self.canvasCrsDisplayPrecision)
         r = requests.get(url)
         body = r.text
         start = '<pre>'
         end = '</pre>'
+        
         final = body[body.find(start)+len(start):body.rfind(end)]
+        
+        # Get second to find address
+        print([userCrsPoint.x(), userCrsPoint.y()])
+        url2 = 'https://nominatim.openstreetmap.org/reverse?lat={0:.{2}f}&lon={1:.{2}f}&format=jsonv2'.format(userCrsPoint.y(), userCrsPoint.x(),
+                                                                                self.canvasCrsDisplayPrecision)
+        r = requests.get(url2)
+        body = r.text
+        address = json.loads(body)["display_name"]
+        
+        # Concatenate the strings to give final data
+        final = final + 'Closest Address        ' + address
+        
         self.dockwidget.moreInfoBox.setText(final)
         print(final)
          

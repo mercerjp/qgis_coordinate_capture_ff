@@ -8,7 +8,7 @@
                              -------------------
         begin                : 2020-07-04
         git sha              : $Format:%H$
-        copyright            : (C) 2020 by Stefanos Natsis
+        copyright            : (C) 2020 by Stefanos Natsis edited by James Mercer 2022
         email                : uclaros@gmail.com
  ***************************************************************************/
 

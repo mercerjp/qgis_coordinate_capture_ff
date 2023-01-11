@@ -3,14 +3,14 @@
 # This file should be included when you package your plugin.# Mandatory items:
 
 [general]
-name=Coordinate Capture
+name=Coordinate Capture Extra
 qgisMinimumVersion=3.14
-description=Capture mouse coordinates in different CRS
-version=0.2
-author=Stefanos Natsis
-email=uclaros@gmail.com
+description=Capture mouse coordinates in different CRS as well as extra data such as w3w and nearest address
+version=0.1
+author=Stefanos Natsis & edited by James Mercer
+email=uclaros@gmail.com, james.p.m@live.co.uk
 
-about=This is a Python port of the deprecated Coordinate Capture core plugin
+about=This is a Python port of the deprecated Coordinate Capture core plugin with extra information
 
 tracker=https://github.com/uclaros/qgis_coordinate_capture/issues
 repository=https://github.com/uclaros/qgis_coordinate_capture
