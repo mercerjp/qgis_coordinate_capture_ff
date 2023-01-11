@@ -35,7 +35,7 @@ class CoordinateCaptureDockWidget(QDockWidget):
         """Constructor."""
         super(CoordinateCaptureDockWidget, self).__init__(parent)
 
-        self.setWindowTitle(self.tr("Coordinate Capture"))
+        self.setWindowTitle(self.tr("Coordinate Capture Extra"))
         self.setGeometry(0, 0, 300, 228)
         self.dockWidgetContents = QWidget(self)
         self.setWidget(self.dockWidgetContents)
@@ -78,7 +78,22 @@ class CoordinateCaptureDockWidget(QDockWidget):
         self.captureButton.setToolTip(self.tr("Click to enable coordinate capture"))
         self.captureButton.setIcon(QIcon(":/plugins/coordinate_capture/coordinate_capture.png"))
         self.captureButton.setWhatsThis(self.tr("Click on the map to view coordinates and capture to clipboard."))
-
+        
+        # More info button which generates streetmap api
+        self.moreInfo = QPushButton(self.dockWidgetContents)
+        self.moreInfo.setText(self.tr("More Info"))
+        self.moreInfo.setToolTip(self.tr("Load more information about this point"))
+        self.moreInfo.setWhatsThis(self.tr("Load more information about the coordinates selected and capture to clipboard."))
+        self.moreInfo.setIcon(QIcon(":/plugins/coordinate_capture/Question_Mark.png"))
+        
+        # More info box to be contained in
+        self.moreInfoBox = QLineEdit(self.dockWidgetContents)
+        self.moreInfoBox.setReadOnly(True)
+        self.moreInfoBox.setToolTip(self.tr("More information around the point (post code, w3w etc.)"))
+        self.moreInfoBoxAction = self.moreInfoBox.addAction(QIcon(":/plugins/coordinate_capture/mActionEditCopy.svg"), QLineEdit.TrailingPosition)
+        self.moreInfoBoxAction.triggered.connect(self.copyMoreInfoBox)
+        #self.moreInfoBox.setFixedWidth(1000)
+        #self.moreInfoBox.setFixedWidth(1000)
         # // Set the icons
         # setCurrentTheme(QString());
 
@@ -88,6 +103,8 @@ class CoordinateCaptureDockWidget(QDockWidget):
         self.dockWidgetContents.layout().addWidget(self.canvasCrsEdit, 1, 1)
         self.dockWidgetContents.layout().addWidget(self.trackMouseButton, 2, 0)
         self.dockWidgetContents.layout().addWidget(self.captureButton, 2, 1)
+        self.dockWidgetContents.layout().addWidget(self.moreInfo, 3, 0, 3, 1)        
+        self.dockWidgetContents.layout().addWidget(self.moreInfoBox, 3, 1, 3, 2)
 
     def copyUserCrsCoordinates(self):
         self.userCrsEdit.selectAll()
@@ -96,6 +113,10 @@ class CoordinateCaptureDockWidget(QDockWidget):
     def copyCanvasCrsCoordinates(self):
         self.canvasCrsEdit.selectAll()
         self.canvasCrsEdit.copy()
+        
+    def copyMoreInfoBox(self):
+        self.moreInfoBox.selectAll()
+        self.moreInfoBox.copy()
 
     def closeEvent(self, event):
         self.closingPlugin.emit()
